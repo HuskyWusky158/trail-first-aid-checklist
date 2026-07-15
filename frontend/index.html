@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Trail First-Aid Checklist</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site-header">
+    <a class="logo" href="#">🥾 TrailSafe</a>
+    <nav class="site-nav">
+      <a href="#find-trail">Find a Trail</a>
+      <a href="#trip-form">Checklist</a>
+      <a href="#safety-plan">Safety Plan</a>
+    </nav>
+    <a href="#trip-form" class="nav-cta">Get Started</a>
+  </header>
+
+  <div class="hero">
+    <img src="images/hero-diablo-lake.jpg" alt="Diablo Lake surrounded by forested mountains">
+
+    <div class="hero-panel">
+      <div class="hero-panel-main">
+        <p class="hero-badge">✦ Plan</p>
+        <h1>Get a checklist and safety plan for your next hike</h1>
+        <p class="hero-price">Free to use &mdash; no signup required</p>
+
+        <ol class="hero-steps">
+          <li>
+            <span class="step-icon">📍</span>
+            <span><strong>Step 1:</strong> Find your trail on the map</span>
+          </li>
+          <li>
+            <span class="step-icon">🎒</span>
+            <span><strong>Step 2:</strong> Get a checklist built for your trip</span>
+          </li>
+          <li>
+            <span class="step-icon">🚨</span>
+            <span><strong>Step 3:</strong> Share your safety plan before you go</span>
+          </li>
+        </ol>
+
+        <a href="#find-trail" class="hero-cta-solid">Start Planning</a>
+        <p class="hero-fineprint">No account needed</p>
+      </div>
+
+      <div class="hero-panel-features">
+        <p class="features-title">This app includes</p>
+
+        <div class="feature-row">
+          <div class="feature-icon">🗺️</div>
+          <div>
+            <h3>Trail Map</h3>
+            <p>Search real hiking trails from OpenStreetMap and pull in their distance automatically.</p>
+          </div>
+        </div>
+        <hr>
+
+        <div class="feature-row">
+          <div class="feature-icon">🎒</div>
+          <div>
+            <h3>Custom Checklist</h3>
+            <p>Gear and supplies tailored to your distance, terrain, season, and elevation gain.</p>
+          </div>
+        </div>
+        <hr>
+
+        <div class="feature-row">
+          <div class="feature-icon">🩹</div>
+          <div>
+            <h3>EMT-Informed Guidance</h3>
+            <p>First-aid notes on heat exhaustion, frostbite, and remote sprains &mdash; from real field experience.</p>
+          </div>
+        </div>
+        <hr>
+
+        <div class="feature-row">
+          <div class="feature-icon">🚨</div>
+          <div>
+            <h3>Solo Safety Plan</h3>
+            <p>Share your route and return time with a contact in one tap, before you head out.</p>
+          </div>
+        </div>
+        <hr>
+
+        <div class="feature-row">
+          <div class="feature-icon">🐕</div>
+          <div>
+            <h3>Dog-Ready Trips</h3>
+            <p>Toggle "bringing my dog" for pet-specific packing items.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main class="page">
+    <section id="find-trail" class="card map-card">
+      <p class="eyebrow">Discover</p>
+      <h2 class="map-title">🗺️ Find a Trail</h2>
+      <p class="map-blurb">
+        Pan/zoom to an area, then search it for hiking trails (OpenStreetMap data).
+        Click a trail to auto-fill its distance below.
+      </p>
+
+      <div class="map-controls">
+        <button type="button" id="locateBtn">📍 Use my location</button>
+        <button type="button" id="searchAreaBtn">Search this area</button>
+      </div>
+
+      <div id="trailMap"></div>
+
+      <p id="mapStatus" class="map-status"></p>
+    </section>
+
+    <form id="trip-form" class="card">
+      <p class="eyebrow">Plan</p>
+      <h2 class="map-title">🎒 Your Trip Details</h2>
+
+      <div class="field-grid">
+        <label>
+          <span>Miles</span>
+          <input type="number" id="miles" value="5" min="0" step="0.5" required>
+        </label>
+
+        <label>
+          <span>Terrain</span>
+          <select id="terrain">
+            <option value="EASY">Easy</option>
+            <option value="MODERATE">Moderate</option>
+            <option value="STRENUOUS">Strenuous</option>
+          </select>
+        </label>
+
+        <label>
+          <span>Season</span>
+          <select id="season">
+            <option value="SPRING">Spring</option>
+            <option value="SUMMER">Summer</option>
+            <option value="FALL">Fall</option>
+            <option value="WINTER">Winter</option>
+          </select>
+        </label>
+
+        <label>
+          <span>Elevation gain (ft)</span>
+          <input type="number" id="elevationGainFt" value="0" min="0">
+        </label>
+      </div>
+
+      <div class="toggle-row">
+        <label class="toggle">
+          <input type="checkbox" id="bringingDog">
+          <span>🐕 Bringing my dog</span>
+        </label>
+
+        <label class="toggle">
+          <input type="checkbox" id="overnight">
+          <span>🏕️ Overnight trip</span>
+        </label>
+      </div>
+
+      <button type="submit">Generate Checklist</button>
+    </form>
+
+    <p id="error" class="error"></p>
+
+    <div id="checklist" class="checklist"></div>
+
+    <section id="safety-plan" class="card safety-card" hidden>
+      <p class="eyebrow">Stay safe</p>
+      <h2 class="safety-title">🚨 Solo Trip Safety Plan</h2>
+      <p class="safety-blurb">
+        Hiking alone? Leave this plan with someone before you go. If you don't check in by your
+        expected return time, they'll know exactly where to send help.
+      </p>
+
+      <div class="field-grid">
+        <label>
+          <span>Trailhead / location</span>
+          <input type="text" id="trailhead" placeholder="e.g. Rattlesnake Ledge trailhead">
+        </label>
+
+        <label>
+          <span>Expected return</span>
+          <input type="datetime-local" id="expectedReturn">
+        </label>
+
+        <label>
+          <span>Emergency contact name</span>
+          <input type="text" id="contactName" placeholder="e.g. Alex">
+        </label>
+
+        <label>
+          <span>Contact email or phone</span>
+          <input type="text" id="contactInfo" placeholder="email@example.com or phone number">
+        </label>
+      </div>
+
+      <label class="notes-label">
+        <span>Notes for your contact</span>
+        <textarea id="safetyNotes" rows="2" placeholder="Parking spot, car description, planned route, cell signal notes, etc."></textarea>
+      </label>
+
+      <div class="safety-actions">
+        <button type="button" id="copyPlanBtn">📋 Copy Plan</button>
+        <button type="button" id="emailPlanBtn">✉️ Email Plan</button>
+        <button type="button" id="textPlanBtn">💬 Text Plan</button>
+      </div>
+
+      <p id="copyStatus" class="copy-status"></p>
+    </section>
+
+    <section class="gallery-section">
+      <p class="eyebrow">Hidden gems</p>
+      <h2 class="map-title">Where this trip could take you</h2>
+
+      <div class="gallery">
+        <figure>
+          <img src="images/gallery-horseshoe-bend.jpg" alt="Horseshoe Bend canyon and river">
+          <figcaption>Horseshoe Bend</figcaption>
+        </figure>
+        <figure>
+          <img src="images/gallery-beach-crab.jpg" alt="Crab shell on a sandy beach">
+          <figcaption>Pacific Coast</figcaption>
+        </figure>
+        <figure>
+          <img src="images/gallery-mount-rainier.jpg" alt="Skyline Trail in Mount Rainier National Park">
+          <figcaption>Mount Rainier — Skyline Trail<span class="photo-credit">Photo: Steven &amp; Nadine Pavlov, CC BY-SA 4.0</span></figcaption>
+        </figure>
+        <figure>
+          <img src="images/gallery-snow-lake.jpg" alt="Snow Lake in the Alpine Lakes Wilderness">
+          <figcaption>Snow Lake, Alpine Lakes Wilderness<span class="photo-credit">Photo: U.S. Forest Service (public domain)</span></figcaption>
+        </figure>
+        <figure>
+          <img src="images/gallery-wallace-falls.jpg" alt="Wallace Falls State Park waterfall">
+          <figcaption>Wallace Falls State Park<span class="photo-credit">Photo: Zincopper11, CC BY-SA 4.0</span></figcaption>
+        </figure>
+        <figure>
+          <img src="images/gallery-rattlesnake-ledge.jpg" alt="View from Rattlesnake Ledge Trail">
+          <figcaption>Rattlesnake Ledge<span class="photo-credit">Photo: Steven Pavlov, CC BY-SA 4.0</span></figcaption>
+        </figure>
+      </div>
+
+      <p class="gallery-note">
+        Trail photos courtesy of
+        <a href="https://commons.wikimedia.org" target="_blank" rel="noopener">Wikimedia Commons</a>
+        contributors, licensed CC BY-SA 4.0 or public domain.
+      </p>
+    </section>
+  </main>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="app.js"></script>
+</body>
+</html>
